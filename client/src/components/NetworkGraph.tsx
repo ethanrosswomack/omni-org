@@ -1,7 +1,8 @@
 import { useRef, useEffect, useState } from 'react';
-import ForceGraph2D from 'react-force-graph-2d';
 import { useTheme } from "@/components/ThemeProvider";
+import * as d3 from 'd3';
 
+// Define types for our graph nodes and links
 type Node = {
   id: string;
   name: string;
@@ -15,7 +16,6 @@ type Link = {
   source: string;
   target: string;
   value: number;
-  description?: string;
 };
 
 type GraphData = {
@@ -24,15 +24,12 @@ type GraphData = {
 };
 
 export default function NetworkGraph() {
-  const graphRef = useRef<any>();
-  const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
+  const svgRef = useRef<SVGSVGElement>(null);
   const { theme } = useTheme();
   const containerRef = useRef<HTMLDivElement>(null);
-  const [graphData, setGraphData] = useState<GraphData>({
-    nodes: [],
-    links: []
-  });
+  const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
   
+  // Generate graph data with all your websites
   const generateGraphData = () => {
     // Define node categories with different colors
     const categories = {
@@ -63,22 +60,13 @@ export default function NetworkGraph() {
         size: 15
       },
       { 
-        id: "aether.omniversalmedia.net", 
-        name: "Aether.OmniversalMedia.net", 
-        url: "https://aether.omniversalmedia.net",
+        id: "omniversalaether.com", 
+        name: "OmniversalAether.com", 
+        url: "https://omniversalaether.com",
         category: "core",
         color: categories.core.color,
         size: 15
       },
-      { 
-        id: "omniversalmedia.cloud", 
-        name: "OmniversalMedia.Cloud", 
-        url: "https://omniversalmedia.cloud",
-        category: "core",
-        color: categories.core.color,
-        size: 15
-      },
-      
       // Media and Content Delivery
       { 
         id: "omniversal.media", 
@@ -89,32 +77,6 @@ export default function NetworkGraph() {
         size: 14
       },
       { 
-        id: "omniversalmedia.live", 
-        name: "OmniversalMedia.Live", 
-        url: "https://omniversalmedia.live",
-        category: "media",
-        color: categories.media.color,
-        size: 13
-      },
-      { 
-        id: "omniversal.news", 
-        name: "Omniversal.News", 
-        url: "https://omniversal.news",
-        category: "media",
-        color: categories.media.color,
-        size: 13
-      },
-      { 
-        id: "omniversalmediagroup.blog", 
-        name: "OmniversalMediaGroup.Blog", 
-        url: "https://omniversalmediagroup.blog",
-        category: "media",
-        color: categories.media.color,
-        size: 12
-      },
-      
-      // Community Sites
-      { 
         id: "beneaththesurface.net", 
         name: "BeneathTheSurface.net", 
         url: "https://beneaththesurface.net",
@@ -122,23 +84,6 @@ export default function NetworkGraph() {
         color: categories.community.color,
         size: 16
       },
-      { 
-        id: "reversethecurse.com", 
-        name: "ReverseThisCurse.com", 
-        url: "https://reversethecurse.com",
-        category: "community",
-        color: categories.community.color,
-        size: 13
-      },
-      { 
-        id: "thegoverningconspiracy.com", 
-        name: "TheGoverningConspiracy.com", 
-        url: "https://thegoverningconspiracy.com",
-        category: "community",
-        color: categories.community.color,
-        size: 14
-      },
-      
       // E-Commerce
       { 
         id: "reincarnated.store", 
@@ -148,15 +93,6 @@ export default function NetworkGraph() {
         color: categories.commerce.color,
         size: 16
       },
-      { 
-        id: "omniversalmedia.shop", 
-        name: "OmniversalMedia.Shop", 
-        url: "https://omniversalmedia.shop",
-        category: "commerce",
-        color: categories.commerce.color,
-        size: 12
-      },
-      
       // Personal Brand
       { 
         id: "hawkeyetherapper.net", 
@@ -165,22 +101,6 @@ export default function NetworkGraph() {
         category: "personal",
         color: categories.personal.color,
         size: 16
-      },
-      { 
-        id: "hawkeyetherapper.app", 
-        name: "HawkEyeTheRapper.app", 
-        url: "https://hawkeyetherapper.app",
-        category: "personal",
-        color: categories.personal.color,
-        size: 14
-      },
-      { 
-        id: "omniversalaether.com", 
-        name: "OmniversalAether.com", 
-        url: "https://omniversalaether.com",
-        category: "personal",
-        color: categories.personal.color,
-        size: 15
       },
       { 
         id: "atlas.omniversalmedia.info", 
@@ -204,128 +124,157 @@ export default function NetworkGraph() {
     const links: Link[] = [
       // Connect Core Infrastructure nodes to each other
       { source: "omniversal.cloud", target: "omniversal.team", value: 5 },
-      { source: "omniversal.cloud", target: "aether.omniversalmedia.net", value: 5 },
-      { source: "omniversal.cloud", target: "omniversalmedia.cloud", value: 5 },
-      { source: "omniversal.team", target: "aether.omniversalmedia.net", value: 4 },
-      { source: "omniversal.team", target: "omniversalmedia.cloud", value: 4 },
-      { source: "aether.omniversalmedia.net", target: "omniversalmedia.cloud", value: 4 },
+      { source: "omniversal.cloud", target: "omniversalaether.com", value: 5 },
       
       // Connect Media nodes
-      { source: "omniversal.media", target: "omniversalmedia.live", value: 4 },
-      { source: "omniversal.media", target: "omniversal.news", value: 4 },
-      { source: "omniversal.media", target: "omniversalmediagroup.blog", value: 3 },
-      { source: "omniversalmedia.live", target: "omniversal.news", value: 3 },
-      { source: "omniversalmedia.live", target: "omniversalmediagroup.blog", value: 3 },
-      { source: "omniversal.news", target: "omniversalmediagroup.blog", value: 3 },
+      { source: "omniversal.media", target: "beneaththesurface.net", value: 4 },
       
       // Connect Core to Media
       { source: "omniversal.cloud", target: "omniversal.media", value: 5 },
-      { source: "aether.omniversalmedia.net", target: "omniversal.media", value: 4 },
-      { source: "omniversalmedia.cloud", target: "omniversalmedia.live", value: 4 },
-      
-      // Connect Community nodes
-      { source: "beneaththesurface.net", target: "reversethecurse.com", value: 3 },
-      { source: "beneaththesurface.net", target: "thegoverningconspiracy.com", value: 3 },
-      { source: "reversethecurse.com", target: "thegoverningconspiracy.com", value: 3 },
-      
-      // Connect Media to Community
-      { source: "omniversal.media", target: "beneaththesurface.net", value: 5 },
-      { source: "omniversalmedia.live", target: "beneaththesurface.net", value: 4 },
-      { source: "omniversal.news", target: "thegoverningconspiracy.com", value: 4 },
+      { source: "omniversalaether.com", target: "omniversal.media", value: 4 },
       
       // Connect Commerce nodes
-      { source: "reincarnated.store", target: "omniversalmedia.shop", value: 4 },
+      { source: "reincarnated.store", target: "reincarnated2resist.com", value: 4 },
       
       // Connect Media to Commerce
       { source: "omniversal.media", target: "reincarnated.store", value: 4 },
-      { source: "omniversalmedia.live", target: "reincarnated.store", value: 3 },
       
       // Connect Personal Brand nodes
-      { source: "hawkeyetherapper.net", target: "hawkeyetherapper.app", value: 5 },
+      { source: "hawkeyetherapper.net", target: "reincarnated2resist.com", value: 5 },
       { source: "hawkeyetherapper.net", target: "omniversalaether.com", value: 4 },
-      { source: "hawkeyetherapper.app", target: "omniversalaether.com", value: 4 },
       
       // Connect Personal to Media/Community
       { source: "hawkeyetherapper.net", target: "beneaththesurface.net", value: 5 },
       { source: "hawkeyetherapper.net", target: "omniversal.media", value: 4 },
-      { source: "omniversalaether.com", target: "aether.omniversalmedia.net", value: 5 },
       
       // Connect to Atlas
       { source: "atlas.omniversalmedia.info", target: "omniversal.cloud", value: 4 },
-      { source: "atlas.omniversalmedia.info", target: "aether.omniversalmedia.net", value: 4 },
-      { source: "atlas.omniversalmedia.info", target: "omniversalmedia.cloud", value: 3 },
-      
-      // Connect to R2R
-      { source: "reincarnated2resist.com", target: "hawkeyetherapper.net", value: 5 },
-      { source: "reincarnated2resist.com", target: "reincarnated.store", value: 5 },
-      { source: "reincarnated2resist.com", target: "beneaththesurface.net", value: 4 },
-      { source: "reincarnated2resist.com", target: "thegoverningconspiracy.com", value: 3 },
+      { source: "atlas.omniversalmedia.info", target: "omniversalaether.com", value: 4 },
     ];
     
     return { nodes, links };
   };
 
   useEffect(() => {
-    // Initialize graph data
-    setGraphData(generateGraphData());
+    // Skip rendering if we're in SSR or the container ref doesn't exist
+    if (!svgRef.current || !containerRef.current) return;
     
-    // Update dimensions on mount
-    if (containerRef.current) {
-      setDimensions({
-        width: containerRef.current.clientWidth,
-        height: containerRef.current.clientHeight || 600
+    // Get container dimensions
+    const width = containerRef.current.clientWidth;
+    const height = containerRef.current.clientHeight || 600;
+    setDimensions({ width, height });
+    
+    // Generate graph data
+    const graphData = generateGraphData();
+    
+    // Clear previous graph
+    d3.select(svgRef.current).selectAll("*").remove();
+    
+    // Create SVG element
+    const svg = d3.select(svgRef.current)
+      .attr("width", width)
+      .attr("height", height)
+      .attr("viewBox", [0, 0, width, height])
+      .style("font", "12px sans-serif");
+    
+    // Create a group for the graph
+    const g = svg.append("g");
+    
+    // Setup zoom behavior
+    const zoom = d3.zoom()
+      .scaleExtent([0.1, 4])
+      .on("zoom", (event) => {
+        g.attr("transform", event.transform);
       });
-    }
     
-    // Handle resize
-    const handleResize = () => {
-      if (containerRef.current) {
-        setDimensions({
-          width: containerRef.current.clientWidth,
-          height: containerRef.current.clientHeight || 600
-        });
-      }
-    };
+    svg.call(zoom as any);
     
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Update force-graph on theme change
-  useEffect(() => {
-    if (graphRef.current) {
-      graphRef.current.d3Force('link')
-        .distance((link: any) => 150 / (link.value || 1));
+    // Create the simulation
+    const simulation = d3.forceSimulation(graphData.nodes as any)
+      .force("link", d3.forceLink(graphData.links)
+        .id((d: any) => d.id)
+        .distance(100))
+      .force("charge", d3.forceManyBody().strength(-300))
+      .force("center", d3.forceCenter(width / 2, height / 2))
+      .force("x", d3.forceX(width / 2).strength(0.1))
+      .force("y", d3.forceY(height / 2).strength(0.1));
+    
+    // Create links
+    const link = g.append("g")
+      .attr("stroke", theme === 'dark' ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.2)")
+      .attr("stroke-opacity", 0.6)
+      .selectAll("line")
+      .data(graphData.links)
+      .join("line")
+      .attr("stroke-width", (d) => Math.sqrt(d.value));
+    
+    // Create nodes
+    const node = g.append("g")
+      .selectAll("g")
+      .data(graphData.nodes)
+      .join("g")
+      .attr("cursor", "pointer")
+      .on("click", (event, d: any) => {
+        window.open(d.url, "_blank");
+      });
+    
+    // Add circles for nodes
+    node.append("circle")
+      .attr("r", (d: any) => d.size / 2)
+      .attr("fill", (d: any) => d.color)
+      .attr("stroke", theme === 'dark' ? "#fff" : "#000")
+      .attr("stroke-width", 1.5);
+    
+    // Add text labels
+    node.append("text")
+      .attr("x", 8)
+      .attr("y", "0.31em")
+      .attr("fill", theme === 'dark' ? "#fff" : "#000")
+      .text((d: any) => d.name)
+      .clone(true).lower()
+      .attr("fill", "none")
+      .attr("stroke", theme === 'dark' ? "#1e293b" : "#f8fafc")
+      .attr("stroke-width", 3);
+    
+    // Set up the tick function
+    simulation.on("tick", () => {
+      link
+        .attr("x1", (d: any) => d.source.x)
+        .attr("y1", (d: any) => d.source.y)
+        .attr("x2", (d: any) => d.target.x)
+        .attr("y2", (d: any) => d.target.y);
       
-      graphRef.current.d3Force('charge')
-        .strength(-200);
-        
-      graphRef.current.d3Force('center')
-        .strength(0.3);
-    }
-  }, [graphRef.current, theme]);
+      node.attr("transform", (d: any) => `translate(${d.x},${d.y})`);
+    });
+    
+    // Drag behavior
+    const drag = d3.drag()
+      .on("start", (event, d: any) => {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+      })
+      .on("drag", (event, d: any) => {
+        d.fx = event.x;
+        d.fy = event.y;
+      })
+      .on("end", (event, d: any) => {
+        if (!event.active) simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+      });
+    
+    node.call(drag as any);
+    
+    // Cleanup
+    return () => {
+      simulation.stop();
+    };
+  }, [svgRef.current, containerRef.current, theme]);
 
   return (
-    <div ref={containerRef} className="w-full h-full">
-      <ForceGraph2D
-        ref={graphRef}
-        width={dimensions.width}
-        height={dimensions.height}
-        graphData={graphData}
-        nodeRelSize={8}
-        nodeLabel={(node: any) => `${node.name}\n${node.url}`}
-        nodeColor={(node: any) => node.color}
-        nodeVal={(node: any) => node.size}
-        linkWidth={(link: any) => link.value * 0.5}
-        linkColor={() => theme === 'dark' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)'}
-        linkDirectionalParticles={2}
-        linkDirectionalParticleWidth={(link: any) => link.value * 0.5}
-        backgroundColor={theme === 'dark' ? '#1e293b' : '#f8fafc'}
-        onNodeClick={(node: Node) => {
-          // Open the website URL in a new tab
-          window.open(node.url, '_blank');
-        }}
-      />
+    <div ref={containerRef} className="w-full h-full relative">
+      <svg ref={svgRef} className="w-full h-full"></svg>
     </div>
   );
 }

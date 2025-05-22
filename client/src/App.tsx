@@ -12,6 +12,7 @@ import Footer from "@/layouts/Footer";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import Dossier from "./pages/Dossier";
+import NetworkMap from "./pages/NetworkMap";
 
 function Router() {
   return (
@@ -20,6 +21,7 @@ function Router() {
       <Route path="/about-us" component={AboutUs} />
       <Route path="/contact-us" component={ContactUs} />
       <Route path="/dossier" component={Dossier} />
+      <Route path="/network-map" component={NetworkMap} />
       <Route component={NotFound} />
     </Switch>
   );
