@@ -7,13 +7,19 @@ import { cn } from "@/lib/utils";
 import logoTriquetra from "@/assets/logo-triquetra.png";
 
 const navLinks = [
-  { label: "Home", href: "#home" },
+  { label: "Home", href: "/" },
   { label: "About", href: "#about" },
   { label: "Services", href: "#services" },
   { label: "Our Work", href: "#work" },
   { label: "Podcast", href: "#podcast" },
   { label: "Store", href: "#store" },
   { label: "Contact", href: "#contact" }
+];
+
+const pageLinks = [
+  { label: "About Us", href: "/about-us" },
+  { label: "Dossier", href: "/dossier" },
+  { label: "Contact Us", href: "/contact-us" }
 ];
 
 export default function Header() {
@@ -68,16 +74,42 @@ export default function Header() {
             </span>
           </Link>
           
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-6">
             {navLinks.map((link) => (
               <button
                 key={link.label}
-                onClick={() => scrollToSection(link.href)}
+                onClick={() => link.href.startsWith('#') ? scrollToSection(link.href) : window.location.href = link.href}
                 className="nav-link relative text-foreground hover:text-primary transition-colors"
               >
                 {link.label}
               </button>
             ))}
+            
+            <div className="relative group">
+              <button
+                className="nav-link relative text-foreground hover:text-primary transition-colors flex items-center"
+              >
+                Pages
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1">
+                  <path d="m6 9 6 6 6-6"/>
+                </svg>
+              </button>
+              
+              <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-card border border-border hidden group-hover:block">
+                <div className="py-1">
+                  {pageLinks.map((link) => (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      className="block px-4 py-2 text-sm text-foreground hover:bg-primary/10 hover:text-primary"
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+            
             <ThemeToggle />
           </nav>
           
@@ -97,7 +129,7 @@ export default function Header() {
       
       {/* Mobile Menu */}
       <div className={cn(
-        "md:hidden absolute inset-x-0 top-16 p-4 bg-card border-b border-border transition-all duration-300 transform",
+        "md:hidden absolute inset-x-0 top-16 p-4 bg-card border-b border-border transition-all duration-300 transform z-50",
         isMobileMenuOpen 
           ? "translate-y-0 opacity-100 pointer-events-auto" 
           : "-translate-y-full opacity-0 pointer-events-none"
@@ -106,12 +138,27 @@ export default function Header() {
           {navLinks.map((link) => (
             <button
               key={link.label}
-              onClick={() => scrollToSection(link.href)}
+              onClick={() => link.href.startsWith('#') ? scrollToSection(link.href) : window.location.href = link.href}
               className="text-foreground hover:text-primary transition-colors px-2 py-1"
             >
               {link.label}
             </button>
           ))}
+          
+          <div className="pt-2 border-t border-border">
+            <div className="font-medium px-2 py-1 text-sm text-muted-foreground mb-2">
+              Pages
+            </div>
+            {pageLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="block text-foreground hover:text-primary transition-colors px-2 py-1"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </header>

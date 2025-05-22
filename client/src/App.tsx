@@ -8,10 +8,18 @@ import Home from "@/pages/Home";
 import Header from "@/layouts/Header";
 import Footer from "@/layouts/Footer";
 
+// Import the new pages we've created
+import AboutUs from "./pages/AboutUs";
+import ContactUs from "./pages/ContactUs";
+import Dossier from "./pages/Dossier";
+
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/about-us" component={AboutUs} />
+      <Route path="/contact-us" component={ContactUs} />
+      <Route path="/dossier" component={Dossier} />
       <Route component={NotFound} />
     </Switch>
   );
