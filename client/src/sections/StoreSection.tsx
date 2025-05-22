@@ -5,35 +5,35 @@ import { ShoppingBag, ShoppingCart, ExternalLink } from "lucide-react";
 // Featured products from the Reincarnated.Store catalog
 const featuredProducts = [
   {
-    id: "OM-001",
-    name: "Omniversal Logo T-Shirt",
-    price: "$20.00",
+    id: "R2R-001",
+    name: "Reincarnated 2 Resist Tee",
+    price: "$28.99",
     category: "Apparel",
-    description: "T-shirt with the Omniversal logo and a subtle galaxy background.",
+    description: "Proudly display your alliance with the movement. This tee features our iconic R2R symbol and the quote 'Howl so your tribe can hear you.'",
     image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
   },
   {
-    id: "OM-003",
-    name: "Cosmic Unity Hoodie",
-    price: "$45.00",
+    id: "AET-003",
+    name: "Aetheric Memory Hoodie",
+    price: "$49.99",
     category: "Apparel",
-    description: "Hoodie displaying interconnected planets symbolizing unity.",
+    description: "The Omniversal Aether Tree hoodie - a wearable reminder of our connection to ancestral wisdom and the evolution of mind.",
     image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
   },
   {
-    id: "OM-006",
-    name: "Galaxy Phone Case",
-    price: "$15.00",
+    id: "BTS-006",
+    name: "Bird Tribes Journal",
+    price: "$24.99",
     category: "Accessories",
-    description: "Phone case with a colorful spiral galaxy design.",
+    description: "Premium journal featuring the Return of the Bird Tribes symbolism. Perfect for recording your journey of awakening.",
     image: "https://images.unsplash.com/photo-1592890288564-76628a30a657?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
   },
   {
-    id: "OM-009",
-    name: "Celestial Canvas Tote Bag",
-    price: "$15.00",
+    id: "TRQ-009",
+    name: "Celtic Triquetra Tote",
+    price: "$19.99",
     category: "Accessories",
-    description: "Canvas tote bag printed with planets and stars artwork.",
+    description: "Canvas tote featuring our signature Celtic triquetra design. A symbolic carrier of wisdom and unity consciousness.",
     image: "https://images.unsplash.com/photo-1544816155-12df9643f363?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
   }
 ];

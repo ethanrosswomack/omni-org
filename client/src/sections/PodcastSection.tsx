@@ -134,14 +134,14 @@ export default function PodcastSection() {
           <Button 
             size="lg" 
             className="gap-2"
-            onClick={() => window.open('#', '_blank')}
+            onClick={() => window.open('https://beneaththesurface.net', '_blank')}
           >
             <Headphones className="h-5 w-5" />
-            Subscribe to Our Podcast
+            Visit Beneath The Surface
             <ExternalLink className="h-4 w-4" />
           </Button>
           <p className="text-sm text-muted-foreground mt-4">
-            Available on Apple Podcasts, Spotify, Google Podcasts, and more
+            Discover more episodes at <a href="https://beneaththesurface.net" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">BeneathTheSurface.net</a>
           </p>
         </motion.div>
       </div>
