@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { cn } from "@/lib/utils";
+import logoTriquetra from "@/assets/logo-triquetra.png";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -52,7 +53,14 @@ export default function Header() {
     )}>
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-3">
+            <div className="h-10 w-10 overflow-hidden">
+              <img 
+                src={logoTriquetra} 
+                alt="Omniversal Media Logo" 
+                className="h-full w-full object-contain"
+              />
+            </div>
             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
               OMNIVERSAL MEDIA
             </span>
