@@ -118,6 +118,23 @@ export default function NetworkGraph() {
         color: categories.community.color,
         size: 15
       },
+      // Lyran Sites
+      { 
+        id: "cradleoflyra.com", 
+        name: "CradleOfLyra.com", 
+        url: "https://cradleoflyra.com",
+        category: "community",
+        color: categories.community.color,
+        size: 15
+      },
+      { 
+        id: "lyranwars.com", 
+        name: "LyranWars.com", 
+        url: "https://lyranwars.com",
+        category: "media",
+        color: categories.media.color,
+        size: 15
+      },
     ];
     
     // Create connections between sites
@@ -150,6 +167,13 @@ export default function NetworkGraph() {
       // Connect to Atlas
       { source: "atlas.omniversalmedia.info", target: "omniversal.cloud", value: 4 },
       { source: "atlas.omniversalmedia.info", target: "omniversalaether.com", value: 4 },
+      
+      // Connect Lyran sites
+      { source: "cradleoflyra.com", target: "lyranwars.com", value: 5 },
+      { source: "cradleoflyra.com", target: "omniversalaether.com", value: 4 },
+      { source: "lyranwars.com", target: "omniversal.media", value: 4 },
+      { source: "lyranwars.com", target: "beneaththesurface.net", value: 3 },
+      { source: "cradleoflyra.com", target: "reincarnated2resist.com", value: 3 },
     ];
     
     return { nodes, links };
