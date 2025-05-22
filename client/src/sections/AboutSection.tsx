@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import omniversalTree from "@/assets/omniversal-tree.png";
 
 const stats = [
   { value: "10+", label: "Years Experience" },
@@ -89,11 +90,12 @@ export default function AboutSection() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
+              className="flex justify-center items-center"
             >
               <img 
-                src="https://pixabay.com/get/g2b4d341cf742512c4a03b698068e60dae42577c41143a98073bc5aa6d094e4137beb6af562c88ef1e2cdb9916d54f45eebaba6c8095101f6d57dcc76eff4ecb3_1280.jpg" 
-                alt="Professional media production setup" 
-                className="rounded-xl shadow-lg w-full h-auto" 
+                src={omniversalTree} 
+                alt="The Omniversal Aether - Tree of Life" 
+                className="rounded-xl shadow-lg w-full max-w-md h-auto" 
               />
             </motion.div>
           </div>

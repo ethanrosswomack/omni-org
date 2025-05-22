@@ -1,4 +1,4 @@
-import { users, type User, type InsertUser } from "@shared/schema";
+import { users, type User, type InsertUser, contactForms, type ContactForm, type InsertContactForm } from "@shared/schema";
 
 // modify the interface with any CRUD methods
 // you might need
@@ -7,15 +7,20 @@ export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  saveContactFormData(contactForm: InsertContactForm): Promise<ContactForm>;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<number, User>;
-  currentId: number;
+  private contactForms: Map<number, ContactForm>;
+  userCurrentId: number;
+  contactFormCurrentId: number;
 
   constructor() {
     this.users = new Map();
-    this.currentId = 1;
+    this.contactForms = new Map();
+    this.userCurrentId = 1;
+    this.contactFormCurrentId = 1;
   }
 
   async getUser(id: number): Promise<User | undefined> {
@@ -29,10 +34,25 @@ export class MemStorage implements IStorage {
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.currentId++;
+    const id = this.userCurrentId++;
     const user: User = { ...insertUser, id };
     this.users.set(id, user);
     return user;
+  }
+  
+  async saveContactFormData(contactForm: InsertContactForm): Promise<ContactForm> {
+    const id = this.contactFormCurrentId++;
+    const now = new Date();
+    
+    const savedContactForm: ContactForm = {
+      ...contactForm,
+      id,
+      createdAt: now
+    };
+    
+    this.contactForms.set(id, savedContactForm);
+    console.log("Contact form saved:", savedContactForm);
+    return savedContactForm;
   }
 }
 

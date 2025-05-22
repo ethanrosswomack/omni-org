@@ -1,6 +1,7 @@
 import { ArrowRight, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import logoMind from "@/assets/logo-mind.png";
 
 export default function HeroSection() {
   const scrollToSection = (sectionId: string) => {
@@ -26,15 +27,27 @@ export default function HeroSection() {
       
       <div className="container mx-auto px-4 md:px-6 pt-24 pb-12 relative z-10">
         <motion.div 
-          className="max-w-3xl mx-auto text-center"
+          className="max-w-4xl mx-auto text-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
+          <motion.div 
+            className="w-40 h-40 mx-auto mb-8"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <img 
+              src={logoMind} 
+              alt="The Solution is Evolution of the Mind" 
+              className="w-full h-full object-contain"
+            />
+          </motion.div>
+          
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            Transforming Ideas Into{" "}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
-              Immersive Experiences
+              Transforming Ideas Into Immersive Experiences
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground mb-8">
