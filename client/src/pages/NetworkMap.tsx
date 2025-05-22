@@ -1,94 +1,66 @@
+import { useEffect } from "react";
 import { Helmet } from "react-helmet";
-import { motion } from "framer-motion";
-import { useState } from "react";
 import NetworkGraph from "@/components/NetworkGraph";
 
 export default function NetworkMap() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
       <Helmet>
         <title>Network Map | Omniversal Media</title>
-        <meta name="description" content="Explore the digital ecosystem of Omniversal Media through our interactive Network Map. Discover how our various websites connect and support the evolution of consciousness." />
+        <meta 
+          name="description" 
+          content="Explore the interconnected digital ecosystem of Omniversal Media websites, projects, and platforms in our interactive network map." 
+        />
+        <meta property="og:title" content="Network Map | Omniversal Media" />
+        <meta 
+          property="og:description" 
+          content="Explore the interconnected digital ecosystem of Omniversal Media websites, projects, and platforms." 
+        />
       </Helmet>
-      
-      <div className="bg-background pt-24 pb-16">
-        <div className="container mx-auto px-4 md:px-6">
-          <motion.div
-            className="max-w-4xl mx-auto"
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-          >
-            <motion.h1 
-              className="text-4xl md:text-5xl font-bold mb-8 text-center"
-              variants={itemVariants}
-            >
-              Omniversal Media Network Map
-            </motion.h1>
-            
-            <motion.div 
-              className="h-1 w-24 bg-gradient-to-r from-primary to-accent mx-auto mb-12"
-              variants={itemVariants}
-            ></motion.div>
-            
-            <motion.p
-              className="text-xl text-center mb-12 max-w-3xl mx-auto"
-              variants={itemVariants}
-            >
-              Explore the interconnected digital ecosystem of Omniversal Media. This visualization demonstrates how our various platforms work together to support the evolution of consciousness.
-            </motion.p>
-          </motion.div>
-          
-          {/* Network Graph */}
-          <div className="w-full h-[600px] bg-card border border-border rounded-xl overflow-hidden shadow-lg">
-            <NetworkGraph />
-          </div>
-          
-          <div className="mt-10 max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold mb-4">Legend & Categories</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="flex items-center">
-                <div className="w-3 h-3 rounded-full bg-teal-500 mr-2"></div>
-                <span>Core Infrastructure</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-3 h-3 rounded-full bg-purple-500 mr-2"></div>
-                <span>Media/Content</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-3 h-3 rounded-full bg-amber-500 mr-2"></div>
-                <span>Community</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-3 h-3 rounded-full bg-blue-500 mr-2"></div>
-                <span>E-Commerce</span>
-              </div>
-            </div>
-            
-            <div className="mt-8">
-              <h3 className="text-xl font-bold mb-3">How to Use</h3>
-              <ul className="list-disc list-inside space-y-2">
-                <li>Click and drag nodes to reposition them</li>
-                <li>Hover over nodes to highlight connections</li>
-                <li>Click on a node to visit that website (coming soon)</li>
-                <li>Zoom in/out using mouse wheel or pinch gesture</li>
-              </ul>
-            </div>
+
+      <div className="container mx-auto px-4 py-16 max-w-7xl">
+        <h1 className="text-4xl md:text-5xl font-bold mb-8 text-center bg-gradient-to-r from-teal-500 to-purple-600 bg-clip-text text-transparent">
+          Omniversal Network Map
+        </h1>
+        
+        <div className="bg-slate-900/50 rounded-xl p-6 mb-8">
+          <p className="text-lg text-center text-slate-300 mb-4">
+            Visualize how our websites, platforms, and digital properties connect within the Omniversal Media ecosystem.
+          </p>
+          <p className="text-center text-slate-400">
+            <span className="inline-block px-2 py-1 rounded bg-teal-500/20 text-teal-400 mx-1">Core Infrastructure</span>
+            <span className="inline-block px-2 py-1 rounded bg-purple-500/20 text-purple-400 mx-1">Media</span>
+            <span className="inline-block px-2 py-1 rounded bg-amber-500/20 text-amber-400 mx-1">Community</span>
+            <span className="inline-block px-2 py-1 rounded bg-blue-500/20 text-blue-400 mx-1">Commerce</span>
+            <span className="inline-block px-2 py-1 rounded bg-pink-500/20 text-pink-400 mx-1">Personal Brand</span>
+          </p>
+        </div>
+        
+        <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-xl shadow-xl overflow-hidden h-[600px] mb-10">
+          <NetworkGraph />
+        </div>
+        
+        <div className="mb-16 max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold mb-4 text-teal-500">Understanding the Network</h2>
+          <p className="mb-4 text-slate-300">
+            The visualization above demonstrates how the different websites and platforms in the Omniversal Media ecosystem are interconnected. Each node represents a website, and the connections show how they relate to each other.
+          </p>
+          <h3 className="text-xl font-semibold mb-2 text-purple-400">Interaction Guide:</h3>
+          <ul className="list-disc list-inside space-y-2 text-slate-300 mb-6">
+            <li>Click and drag nodes to reposition them</li>
+            <li>Click on any node to visit that website</li>
+            <li>Scroll to zoom in or out of the visualization</li>
+            <li>Click and drag the background to pan the view</li>
+          </ul>
+          <div className="bg-slate-800/50 p-4 rounded-lg">
+            <p className="italic text-slate-400 text-center">
+              "Omniversal Media connects the disparate elements of digital consciousness
+              into a cohesive ecosystem for the evolution of mind."
+            </p>
           </div>
         </div>
       </div>

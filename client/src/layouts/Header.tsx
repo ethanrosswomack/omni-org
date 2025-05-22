@@ -19,6 +19,7 @@ const navLinks = [
 const pageLinks = [
   { label: "About Us", href: "/about-us" },
   { label: "Dossier", href: "/dossier" },
+  { label: "Network Map", href: "/network-map" },
   { label: "Contact Us", href: "/contact-us" }
 ];
 
