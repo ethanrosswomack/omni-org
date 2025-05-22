@@ -114,11 +114,81 @@ export default function Footer() {
           
           <div>
             <div className="mb-8">
+              <h3 className="text-lg font-bold mb-6">Our Network</h3>
+              <ul className="space-y-3">
+                <li>
+                  <a 
+                    href="https://hawkeyetherapper.net" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    HawkEyeTheRapper.net
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="https://omniversalaether.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    OmniversalAether.com
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="https://atlas.omniversalmedia.info" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    Atlas.OmniversalMedia.info
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="https://omniversalmedia.net" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    OmniversalMedia.net
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="https://reincarnated.store" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    Reincarnated.Store
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="https://reincarnated2resist.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    Reincarnated2Resist.com
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div>
+            <div className="mb-8">
               <h3 className="text-lg font-bold mb-6">Podcast</h3>
               <div className="flex items-center space-x-2 mb-3">
                 <Headphones className="h-5 w-5 text-primary" />
                 <a 
-                  href="#"
+                  href="https://beneaththesurface.net"
+                  target="_blank" 
+                  rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-primary transition-colors font-medium"
                 >
                   Beneath The Surface
