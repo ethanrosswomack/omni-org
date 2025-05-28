@@ -13,6 +13,8 @@ import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import Dossier from "./pages/Dossier";
 import NetworkMap from "./pages/NetworkMap";
+import BookReview1 from "./pages/BookReview1";
+import BookReview2 from "./pages/BookReview2";
 
 function Router() {
   return (
