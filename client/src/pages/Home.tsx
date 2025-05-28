@@ -1,9 +1,12 @@
 import HeroSection from "@/sections/HeroSection";
+import FeaturedArtistSection from "@/sections/FeaturedArtistSection";
+import BooksSection from "@/sections/BooksSection";
 import AboutSection from "@/sections/AboutSection";
 import ServicesSection from "@/sections/ServicesSection";
 import WorkShowcase from "@/sections/WorkShowcase";
 import TestimonialsSection from "@/sections/TestimonialsSection";
 import ContactSection from "@/sections/ContactSection";
+import VideoSection from "@/sections/VideoSection";
 import CTASection from "@/sections/CTASection";
 import { Helmet } from "react-helmet";
 
@@ -25,6 +28,8 @@ export default function Home() {
       </Helmet>
       
       <HeroSection />
+      <FeaturedArtistSection />
+      <BooksSection />
       <AboutSection />
       <ServicesSection />
       <WorkShowcase />
@@ -32,6 +37,7 @@ export default function Home() {
       <PodcastSection />
       <StoreSection />
       <ContactSection />
+      <VideoSection />
       <CTASection />
     </>
   );

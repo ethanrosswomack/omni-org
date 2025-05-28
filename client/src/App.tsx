@@ -24,6 +24,8 @@ function Router() {
       <Route path="/contact-us" component={ContactUs} />
       <Route path="/dossier" component={Dossier} />
       <Route path="/network-map" component={NetworkMap} />
+      <Route path="/book-review-1" component={BookReview1} />
+      <Route path="/book-review-2" component={BookReview2} />
       <Route component={NotFound} />
     </Switch>
   );
