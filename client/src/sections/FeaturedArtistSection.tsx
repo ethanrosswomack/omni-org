@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Star, Instagram, Globe } from "lucide-react";
+import { CelticSectionReveal, TriquetraHover } from "@/components/ui/page-transition";
 
 export default function FeaturedArtistSection() {
   const containerVariants = {

@@ -2,6 +2,7 @@ import { ArrowRight, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import logoMind from "@/assets/logo-mind.png";
+import { CelticSectionReveal, TriquetraHover } from "@/components/ui/page-transition";
 
 export default function HeroSection() {
   const scrollToSection = (sectionId: string) => {

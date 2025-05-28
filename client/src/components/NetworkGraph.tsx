@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { useTheme } from "@/components/ThemeProvider";
 import * as d3 from 'd3';
+import { CelticLoader } from "@/components/ui/celtic-loader";
 
 // Define types for our graph nodes and links
 type Node = {
@@ -28,6 +29,7 @@ export default function NetworkGraph() {
   const { theme } = useTheme();
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
+  const [isLoading, setIsLoading] = useState(true);
   
   // Generate graph data with all your websites
   const generateGraphData = () => {
@@ -183,6 +185,9 @@ export default function NetworkGraph() {
     // Skip rendering if we're in SSR or the container ref doesn't exist
     if (!svgRef.current || !containerRef.current) return;
     
+    // Show loading state
+    setIsLoading(true);
+    
     // Get container dimensions
     const width = containerRef.current.clientWidth;
     const height = containerRef.current.clientHeight || 600;
@@ -290,6 +295,11 @@ export default function NetworkGraph() {
     
     node.call(drag as any);
     
+    // Hide loading state after a brief delay to show the animation
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    
     // Cleanup
     return () => {
       simulation.stop();
@@ -298,6 +308,14 @@ export default function NetworkGraph() {
 
   return (
     <div ref={containerRef} className="w-full h-full relative">
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm rounded-lg z-10">
+          <div className="text-center space-y-4">
+            <CelticLoader size="lg" variant="knot" className="text-teal-500" />
+            <p className="text-teal-300 text-sm">Weaving the network...</p>
+          </div>
+        </div>
+      )}
       <svg ref={svgRef} className="w-full h-full"></svg>
     </div>
   );
