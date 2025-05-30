@@ -23,6 +23,10 @@ const pageLinks = [
   { label: "Contact Us", href: "/contact-us" }
 ];
 
+const teamLinks = [
+  { label: "Team Portal", href: "/backend/", external: true }
+];
+
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -107,6 +111,18 @@ export default function Header() {
                       {link.label}
                     </a>
                   ))}
+                  <hr className="my-1 border-border" />
+                  {teamLinks.map((link) => (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block px-4 py-2 text-sm text-slate-400 hover:bg-primary/10 hover:text-primary"
+                    >
+                      {link.label}
+                    </a>
+                  ))}
                 </div>
               </div>
             </div>
@@ -155,6 +171,17 @@ export default function Header() {
                 key={link.label}
                 href={link.href}
                 className="block text-foreground hover:text-primary transition-colors px-2 py-1"
+              >
+                {link.label}
+              </a>
+            ))}
+            {teamLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-slate-400 hover:text-primary transition-colors px-2 py-1 text-sm"
               >
                 {link.label}
               </a>
