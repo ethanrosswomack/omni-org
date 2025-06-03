@@ -1,4 +1,6 @@
 import { users, type User, type InsertUser, contactForms, type ContactForm, type InsertContactForm } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 // modify the interface with any CRUD methods
 // you might need
@@ -10,50 +12,34 @@ export interface IStorage {
   saveContactFormData(contactForm: InsertContactForm): Promise<ContactForm>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private contactForms: Map<number, ContactForm>;
-  userCurrentId: number;
-  contactFormCurrentId: number;
-
-  constructor() {
-    this.users = new Map();
-    this.contactForms = new Map();
-    this.userCurrentId = 1;
-    this.contactFormCurrentId = 1;
-  }
-
+export class DatabaseStorage implements IStorage {
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.userCurrentId++;
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
+    const [user] = await db
+      .insert(users)
+      .values(insertUser)
+      .returning();
     return user;
   }
   
   async saveContactFormData(contactForm: InsertContactForm): Promise<ContactForm> {
-    const id = this.contactFormCurrentId++;
-    const now = new Date();
+    const [savedContactForm] = await db
+      .insert(contactForms)
+      .values(contactForm)
+      .returning();
     
-    const savedContactForm: ContactForm = {
-      ...contactForm,
-      id,
-      createdAt: now
-    };
-    
-    this.contactForms.set(id, savedContactForm);
     console.log("Contact form saved:", savedContactForm);
     return savedContactForm;
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
