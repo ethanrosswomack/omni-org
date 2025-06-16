@@ -38,7 +38,6 @@ app.use((req, res, next) => {
 
 (async () => {
   try {
-    console.log('Starting server initialization...');
     const server = await registerRoutes(app);
 
     app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
