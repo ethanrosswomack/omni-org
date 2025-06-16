@@ -83,7 +83,7 @@ export default function Header() {
             {navLinks.map((link) => (
               <button
                 key={link.label}
-                onClick={() => link.href.startsWith('#') ? scrollToSection(link.href) : window.location.href = link.href}
+                onClick={() => scrollToSection(link.href)}
                 className="nav-link relative text-foreground hover:text-primary transition-colors"
               >
                 {link.label}
@@ -103,13 +103,13 @@ export default function Header() {
               <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-card border border-border hidden group-hover:block">
                 <div className="py-1">
                   {pageLinks.map((link) => (
-                    <a
+                    <Link
                       key={link.label}
                       href={link.href}
                       className="block px-4 py-2 text-sm text-foreground hover:bg-primary/10 hover:text-primary"
                     >
                       {link.label}
-                    </a>
+                    </Link>
                   ))}
                   <hr className="my-1 border-border" />
                   {teamLinks.map((link) => (
@@ -155,7 +155,7 @@ export default function Header() {
           {navLinks.map((link) => (
             <button
               key={link.label}
-              onClick={() => link.href.startsWith('#') ? scrollToSection(link.href) : window.location.href = link.href}
+              onClick={() => scrollToSection(link.href)}
               className="text-foreground hover:text-primary transition-colors px-2 py-1"
             >
               {link.label}
@@ -167,13 +167,13 @@ export default function Header() {
               Pages
             </div>
             {pageLinks.map((link) => (
-              <a
+              <Link
                 key={link.label}
                 href={link.href}
                 className="block text-foreground hover:text-primary transition-colors px-2 py-1"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
             {teamLinks.map((link) => (
               <a
