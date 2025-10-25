@@ -1,6 +1,4 @@
-import { users, type User, type InsertUser, contactForms, type ContactForm, type InsertContactForm } from "@shared/schema";
-import { db } from "./db";
-import { eq } from "drizzle-orm";
+import { type User, type InsertUser, type ContactForm, type InsertContactForm } from "@shared/schema";
 
 // modify the interface with any CRUD methods
 // you might need
@@ -12,54 +10,45 @@ export interface IStorage {
   saveContactFormData(contactForm: InsertContactForm): Promise<ContactForm>;
 }
 
-export class DatabaseStorage implements IStorage {
+export class MemStorage implements IStorage {
+  private users: Map<number, User> = new Map();
+  private contactForms: Map<number, ContactForm> = new Map();
+  private nextUserId = 1;
+  private nextContactFormId = 1;
+
   async getUser(id: number): Promise<User | undefined> {
-    try {
-      const [user] = await db.select().from(users).where(eq(users.id, id));
-      return user || undefined;
-    } catch (error) {
-      console.error('Error getting user:', error);
-      return undefined;
-    }
+    return this.users.get(id);
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    try {
-      const [user] = await db.select().from(users).where(eq(users.username, username));
-      return user || undefined;
-    } catch (error) {
-      console.error('Error getting user by username:', error);
-      return undefined;
+    for (const user of Array.from(this.users.values())) {
+      if (user.username === username) {
+        return user;
+      }
     }
+    return undefined;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    try {
-      const [user] = await db
-        .insert(users)
-        .values(insertUser)
-        .returning();
-      return user;
-    } catch (error) {
-      console.error('Error creating user:', error);
-      throw error;
-    }
+    const user: User = {
+      id: this.nextUserId++,
+      ...insertUser,
+    };
+    this.users.set(user.id, user);
+    return user;
   }
   
   async saveContactFormData(contactForm: InsertContactForm): Promise<ContactForm> {
-    try {
-      const [savedContactForm] = await db
-        .insert(contactForms)
-        .values(contactForm)
-        .returning();
-      
-      console.log("Contact form saved:", savedContactForm);
-      return savedContactForm;
-    } catch (error) {
-      console.error('Error saving contact form:', error);
-      throw error;
-    }
+    const savedContactForm: ContactForm = {
+      id: this.nextContactFormId++,
+      ...contactForm,
+      createdAt: new Date(),
+    };
+    
+    this.contactForms.set(savedContactForm.id, savedContactForm);
+    console.log("Contact form saved:", savedContactForm);
+    return savedContactForm;
   }
 }
 
-export const storage = new DatabaseStorage();
+export const storage = new MemStorage();

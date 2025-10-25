@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    # Uncomment below if you want to use a database
+    # depends_on:
+    #   - db
+  
+  # Uncomment this section if you want to use PostgreSQL
+  # db:
+  #   image: postgres:16-alpine
+  #   environment:
+  #     POSTGRES_USER: myapp
+  #     POSTGRES_PASSWORD: changeme
+  #     POSTGRES_DB: myapp
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   restart: unless-stopped
+
+# volumes:
+#   postgres_data:
