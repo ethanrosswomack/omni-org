@@ -7,6 +7,7 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import Header from "@/layouts/Header";
 import Footer from "@/layouts/Footer";
+import Store from "@/pages/Store";
 
 // Import the new pages we've created
 import AboutUs from "./pages/AboutUs";
@@ -20,6 +21,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/store" component={Store} />
       <Route path="/about-us" component={AboutUs} />
       <Route path="/contact-us" component={ContactUs} />
       <Route path="/dossier" component={Dossier} />

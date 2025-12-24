@@ -17,6 +17,7 @@ const navLinks = [
 ];
 
 const pageLinks = [
+  { label: "Store", href: "/store" },
   { label: "About Us", href: "/about-us" },
   { label: "Dossier", href: "/dossier" },
   { label: "Network Map", href: "/network-map" },

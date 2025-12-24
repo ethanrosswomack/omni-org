@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type ContactForm, type InsertContactForm } from "@shared/schema";
+import { type User, type InsertUser, type ContactForm, type InsertContactForm, type Product, type InsertProduct } from "@shared/schema";
 
 // modify the interface with any CRUD methods
 // you might need
@@ -8,13 +8,18 @@ export interface IStorage {
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   saveContactFormData(contactForm: InsertContactForm): Promise<ContactForm>;
+  getProducts(): Promise<Product[]>;
+  getProduct(id: number): Promise<Product | undefined>;
+  createProduct(product: InsertProduct): Promise<Product>;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<number, User> = new Map();
   private contactForms: Map<number, ContactForm> = new Map();
+  private products: Map<number, Product> = new Map();
   private nextUserId = 1;
   private nextContactFormId = 1;
+  private nextProductId = 1;
 
   async getUser(id: number): Promise<User | undefined> {
     return this.users.get(id);
@@ -48,6 +53,28 @@ export class MemStorage implements IStorage {
     this.contactForms.set(savedContactForm.id, savedContactForm);
     console.log("Contact form saved:", savedContactForm);
     return savedContactForm;
+  }
+
+  async getProducts(): Promise<Product[]> {
+    return Array.from(this.products.values());
+  }
+
+  async getProduct(id: number): Promise<Product | undefined> {
+    return this.products.get(id);
+  }
+
+  async createProduct(insertProduct: InsertProduct): Promise<Product> {
+    const product: Product = {
+      id: this.nextProductId++,
+      name: insertProduct.name,
+      category: insertProduct.category,
+      description: insertProduct.description || null,
+      price: insertProduct.price,
+      image: insertProduct.image || null,
+      stock: insertProduct.stock || 0,
+    };
+    this.products.set(product.id, product);
+    return product;
   }
 }
 
